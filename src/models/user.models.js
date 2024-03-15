@@ -4,8 +4,8 @@ import bcrypt from 'bcrypt'
 
 const userSchema = new Schema(
     {
-        userName: { type: String, required: true, trim: true, unique: true, lowercase: true, index: true },
-        email: { type: String, required: true, trim: true, unique: true, lowercase: true },
+        userName: { type: String, required: true, trim: true, lowercase: true, index: true },
+        email: { type: String, required: true, trim: true, lowercase: true },
         fullName: { type: String, required: true, trim: true, index: true },
         avatar: { type: String, required: true }, // cloudinary url
         coverImage: { type: String }, // cloudinary url
