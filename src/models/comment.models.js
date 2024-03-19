@@ -6,8 +6,6 @@ const commentSchema = new Schema({
     video: { type: Schema.Types.ObjectId, ref: "Video", },
     owner: { type: Schema.Types.ObjectId, ref: "User", },
 
-
-
 }, { timestamps: true });
 
 commentSchema.plugin(mongooseAggregatePaginate);
