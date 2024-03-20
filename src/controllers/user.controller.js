@@ -310,7 +310,7 @@ const updateCoverImage = asyncHandler(async (req, req) => {
 })
 
 // get subscribers
-const subscription = asyncHandler(async (req, res) => {
+const getUserChannelProfile = asyncHandler(async (req, res) => {
 
     const userName = await User.findOne(req.param.userName);
 
@@ -377,5 +377,61 @@ const subscription = asyncHandler(async (req, res) => {
 
 })
 
+// fetch watch history
+const getWatchHistory = asyncHandler(async (req, res) => {
+    const user = await User.aggregate(
+        [
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+            {
+                $lookup: {
+                    from: "videos",
+                    localFields: "watchHistory",
+                    foreignFields: "_id",
+                    as: "watchHistory",
+                    pipeline: [
+                        {
+                            $lookup: {
+                                from: "users",
+                                localFields: "owner",
+                                foreignFields: "_id",
+                                as: "owner",
+                                pipeline: [
+                                    {
+                                        $project: {
+                                            fullName: 1,
+                                            userName: 1,
+                                            avatar: 1,
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            $addFields: {
+                                owner: {
+                                    $first: "$owner"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ])
 
-export { registerUser, loginUser, logOutUser, incomingRefreshToken, changeCurrentPassword, getCurrentUser, subscription, updateUserAvatar, updateCoverImage, updateAccountDetails };
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user[0].WatchHistory,
+                "watchHistory fetched successfully"
+            )
+        )
+})
+
+
+export { registerUser, loginUser, logOutUser, incomingRefreshToken, changeCurrentPassword, getCurrentUser, getUserChannelProfile, updateUserAvatar, updateCoverImage, updateAccountDetails, getWatchHistory };
