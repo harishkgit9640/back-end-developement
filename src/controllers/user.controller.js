@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { User } from '../models/user.models.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
@@ -144,7 +145,7 @@ const logOutUser = asyncHandler(async (req, res) => {
 
     await User.findByIdAndUpdate(req.user._id,
         {
-            $set: { refreshToken: undefined }
+            $unset: { refreshToken: 1 } //used - set to unset
         },
         { new: true },
     )
@@ -169,7 +170,8 @@ const logOutUser = asyncHandler(async (req, res) => {
 // re-login user with refresh token
 const incomingRefreshToken = asyncHandler(async (req, res) => {
 
-    const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
+    console.log(req.user); // need to work here....
+    const incomingRefreshToken = req.cookie.refreshToken || req.user.refreshToken
 
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized refresh token!")
@@ -212,12 +214,19 @@ const incomingRefreshToken = asyncHandler(async (req, res) => {
 // change current password
 const changeCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
+    // console.log(req.body);
 
     // if (newPassword !== confirmPassword) {
     //     throw new ApiError(401, "password should be matches with confirm password");
     // }
 
-    const user = await User.find(req.user?._id)
+    if (!oldPassword || !newPassword) {
+        throw new ApiError(401, "old password and new password should not be empty or equal");
+    }
+
+    const response = await User.find(req.user?._id)
+    // console.log(user[0].password);
+    const user = response[0];
     const isCorrectPassword = await user.isPasswordCorrect(oldPassword)
 
     if (!isCorrectPassword) {
@@ -242,10 +251,12 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 //update user account
 const updateAccountDetails = asyncHandler(async (req, res) => {
     const { fullName, email } = req.body
+    // console.log(req.body);
     if (!email || !fullName) {
         throw new ApiError(400, "Invalid email and fullName")
     }
-    const user = User.findByIdAndUpdate(req.user?._id,
+    const user = await User.findByIdAndUpdate(req.user?._id,
+        // req.body,
         {
             $set: { email: email, fullName: fullName }
         },
@@ -282,7 +293,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 })
 
 // update cover image 
-const updateCoverImage = asyncHandler(async (req, req) => {
+const updateCoverImage = asyncHandler(async (req, res) => {
     const coverImageLocalPath = req.file?.path
 
     if (!coverImageLocalPath) {
@@ -295,7 +306,7 @@ const updateCoverImage = asyncHandler(async (req, req) => {
         throw new ApiError(400, "while uploading avatar file")
     }
 
-    const updatedCoverImage = await findByIdAndUpdate(
+    const updatedCoverImage = await User.findByIdAndUpdate(
         req.user?._id,
         { coverImage: coverImage.url },
         { new: true }
@@ -311,16 +322,17 @@ const updateCoverImage = asyncHandler(async (req, req) => {
 
 // get subscribers
 const getUserChannelProfile = asyncHandler(async (req, res) => {
+    // console.log(req.body);
+    const user = await User.findOne(req.body);
+    // console.log(user.userName.toLowerCase());
 
-    const userName = await User.findOne(req.param.userName);
-
-    if (!userName?.trim()) {
-        throw new ApiError(401, "UserName not found");
+    if (!user) {
+        throw new ApiError(401, "userName not found");
     }
 
     const channel = await User.aggregate[
         {
-            $match: { userName: userName.toLowerCase() },
+            $match: { userName: user.userName.toLowerCase() },
         },
         {
             $lookup: {
@@ -379,6 +391,9 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
 // fetch watch history
 const getWatchHistory = asyncHandler(async (req, res) => {
+    let data = new mongoose.Types.ObjectId(req.user._id);
+    // console.log(data);
+
     const user = await User.aggregate(
         [
             {

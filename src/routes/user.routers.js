@@ -18,8 +18,7 @@ router.route('/change-password').post(verifyJWT, changeCurrentPassword)
 //other routes
 router.route('/get-user').get(verifyJWT, getCurrentUser)
 router.route('/watch-history').get(verifyJWT, getWatchHistory)
-router.route('/channel/:username').get(verifyJWT, getUserChannelProfile)
-
+router.route('/channel').get(verifyJWT, getUserChannelProfile)
 router.route('/avatar').patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
 router.route('/cover-image').patch(verifyJWT, upload.single("coverImage"), updateCoverImage)
 router.route('/update-account').patch(verifyJWT, updateAccountDetails)
