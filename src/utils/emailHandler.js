@@ -4,12 +4,12 @@ import nodemailer from 'nodemailer'
 
 
 var transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: process.env.SMTP_HOST,
     port: 465,
     secure: true, // use SSL
     auth: {
-        user: "harishstudio877@gmail.com",
-        pass: "ihlhhewnvtvingmh",
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
     },
 });
 
