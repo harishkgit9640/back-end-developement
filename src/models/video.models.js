@@ -9,7 +9,7 @@ const videoSchema = new Schema({
     description: { type: String, required: true },
     duration: { type: Number, required: true },
     views: { type: Number, default: 0 },
-    isPublished: { type: boolean, required: true },
+    isPublished: { type: Boolean, required: true },
 
 
 }, { timestamps: true });
