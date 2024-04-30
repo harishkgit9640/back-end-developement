@@ -6,4 +6,4 @@ const likeSchema = new Schema({
     likedBy: { type: Schema.Types.ObjectId, ref: "User", },
 }, { timestamps: true });
 
-export const Video = mongoose.model('Like', likeSchema);
+export const Like = mongoose.model('Like', likeSchema);
