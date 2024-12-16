@@ -28,9 +28,9 @@ import playlistRouter from "./routes/playlist.routers.js"
 app.use("/api/v1/users", userRouter) // done
 app.use("/api/v1/tweets", tweetRouter) //done
 app.use("/api/v1/likes", likeRouter) // done
-app.use("/api/v1/videos", videoRouter)
+app.use("/api/v1/videos", videoRouter) // done
 app.use("/api/v1/comments", commentRouter) // done
-app.use("/api/v1/playlist", playlistRouter)
+app.use("/api/v1/playlist", playlistRouter) // done
 app.use("/api/v1/subscriptions", subscriptionRouter)
 
 

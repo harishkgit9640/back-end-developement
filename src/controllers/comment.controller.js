@@ -5,13 +5,13 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 
 const getVideoComments = asyncHandler(async (req, res) => {
-    //TODO: get all comments for a video
     const { videoId } = req.params
     const { page = 1, limit = 10 } = req.query
+    console.log(videoId);
 
     const user = req.user?._id;
     const allVideoComments = await Comment.find({
-        video: videoId,
+        videoId: videoId,
         owner: user
     });
     return res
@@ -23,6 +23,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
 const addComment = asyncHandler(async (req, res) => {
     const { content } = req.body
+    const { videoId } = req.params
 
     if (!content) {
         throw new ApiError(401, "content should not be empty !")
@@ -30,6 +31,7 @@ const addComment = asyncHandler(async (req, res) => {
 
     const comment = await Comment.create({
         content,
+        videoId: videoId,
         owner: req.user._id
     });
 
@@ -48,7 +50,7 @@ const updateComment = asyncHandler(async (req, res) => {
 
     await Comment.findByIdAndUpdate(commentId, {
         content,
-        owner: req.user._id
+        // owner: req.user._id
     });
 
     const comment = await Comment.findOne({ _id: commentId })
