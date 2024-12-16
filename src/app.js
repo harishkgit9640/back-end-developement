@@ -25,13 +25,13 @@ import likeRouter from "./routes/like.router.js"
 import playlistRouter from "./routes/playlist.routers.js"
 
 //routes declaration
-app.use("/api/v1/users", userRouter)
-app.use("/api/v1/tweets", tweetRouter)
-app.use("/api/v1/subscriptions", subscriptionRouter)
+app.use("/api/v1/users", userRouter) // done
+app.use("/api/v1/tweets", tweetRouter) //done
+app.use("/api/v1/likes", likeRouter) // done
 app.use("/api/v1/videos", videoRouter)
-app.use("/api/v1/comments", commentRouter)
-app.use("/api/v1/likes", likeRouter)
+app.use("/api/v1/comments", commentRouter) // done
 app.use("/api/v1/playlist", playlistRouter)
+app.use("/api/v1/subscriptions", subscriptionRouter)
 
 
 // http://localhost:5000/api/v1/users/register

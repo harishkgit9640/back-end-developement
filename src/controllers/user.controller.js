@@ -170,8 +170,10 @@ const logOutUser = asyncHandler(async (req, res) => {
 // re-login user with refresh token
 const incomingRefreshToken = asyncHandler(async (req, res) => {
 
-    console.log(req.user); // need to work here....
-    const incomingRefreshToken = req.cookie.refreshToken || req.user.refreshToken
+    // console.log(req.body.refreshToken);
+
+
+    const incomingRefreshToken = req.body?.refreshToken || req.cookie?.refreshToken
 
     if (!incomingRefreshToken) {
         throw new ApiError(401, "Unauthorized refresh token!")
@@ -180,7 +182,8 @@ const incomingRefreshToken = asyncHandler(async (req, res) => {
     try {
         const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
 
-        const user = await User.findOne(decodedToken?._id)
+        console.log(decodedToken?._id);
+        const user = await User.findOne({ _id: decodedToken?._id })
 
         if (!user) {
             throw new ApiError(401, "invalid refresh token")
@@ -195,14 +198,17 @@ const incomingRefreshToken = asyncHandler(async (req, res) => {
             secure: true,
         }
 
-        const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(user._id)
+        const { accessToken, refreshToken: newRefreshToken } = await generateAccessAndRefreshToken(user._id)
+
+        user.refreshToken = newRefreshToken;
 
         return res
             .status(200)
             .cookie("accessToken", accessToken, options)
             .cookie("refreshToken", newRefreshToken, options)
             .json(new ApiResponse(
-                { accessToken, refreshToken: newRefreshToken },
+                200,
+                { accessToken, "refreshToken": newRefreshToken },
                 "token refreshed successfully!"
             ))
     } catch (error) {
@@ -322,9 +328,9 @@ const updateCoverImage = asyncHandler(async (req, res) => {
 
 // get subscribers
 const getUserChannelProfile = asyncHandler(async (req, res) => {
-    // console.log(req.body);
-    const user = await User.findOne(req.body);
-    // console.log(user.userName.toLowerCase());
+    const user = await User.findOne({ "userName": req.body.userName });
+    console.log(user);
+    console.log(user.userName.toLowerCase()); // need to work
 
     if (!user) {
         throw new ApiError(401, "userName not found");
@@ -392,7 +398,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 // fetch watch history
 const getWatchHistory = asyncHandler(async (req, res) => {
     let data = new mongoose.Types.ObjectId(req.user._id);
-    // console.log(data);
+    console.log(data); // need to work
 
     const user = await User.aggregate(
         [
