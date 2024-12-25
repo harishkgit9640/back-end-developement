@@ -1,0 +1,596 @@
+{
+	"info": {
+		"_postman_id": "a4d3b1a0-309c-4423-a92b-602bc454c82f",
+		"name": "BACK-END-DEVELOPMENT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34084266"
+	},
+	"item": [
+		{
+			"name": "LIKE-API",
+			"item": [
+				{
+					"name": "LIKE-TWEETER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{BASE_URL}}/likes/toggle/tweet/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "LIKE-COMMENT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{BASE_URL}}/likes/toggle/comment/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "LIKE-VIDEO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{BASE_URL}}/likes/toggle/video/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-LIKED-VIDEO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/likes/videos"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TWEET API",
+			"item": [
+				{
+					"name": "ADD-TWEET",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"I am in Raipur\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/tweets/create-tweet"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-TWEETS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/tweets/get-tweets"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-TWEET",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"I am in Hyderabad :)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/tweets/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-TWEET",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"I am in Hyderabad :)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/tweets/675eb19f964a51ab112af674"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER-API",
+			"item": [
+				{
+					"name": "ADD-USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "harishkumar",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "HKS_sahu",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "hks@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "harish123",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/HK/OneDrive/Pictures/harish_kumar.png"
+								},
+								{
+									"key": "coverImage",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "localhost:5000/api/v1/users/register/"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN-USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"pm.environment.set('userName', res.data.user.userName);\r",
+									"pm.environment.set('accessToken', res.data.accessToken);\r",
+									"pm.environment.set('refreshToken', res.data.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"HKS_sahu\",\r\n    \"email\": \"hks@gmall.com\",\r\n    \"password\": \"harish@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-USER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:5000/api/v1/users/get-user"
+					},
+					"response": []
+				},
+				{
+					"name": "LOGOUT-USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "RE-LOGIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"pm.environment.set(\"refreshToken\", res.data.refreshToken);\r",
+									"pm.environment.set(\"accessToken\", res.data.accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\" : \"{{refreshToken}}\"\r\n    // \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVlNzFjNGNlM2NiNDc4MjBhNzE4OWYiLCJpYXQiOjE3MzQyNTQxNjAsImV4cCI6MTczNTExODE2MH0.Oz1KYgEclAod_VSoSDQf8PfbqkTYndlSVO1hQsoxhsg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:5000/api/v1/users/refresh-token"
+					},
+					"response": []
+				},
+				{
+					"name": "RESET-PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"HKS_sahu\",\r\n    \"oldPassword\": \"harish123\",\r\n    \"newPassword\": \"harish@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-PROFILE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"HARISH KUMAR SAHU\",\r\n    \"email\": \"harishkemail@gmall.com\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users/update-account"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-COVER-IMAGE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/C:/Users/HK/OneDrive/Pictures/Screenshots/Screenshot 2024-01-30 013456.png"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/users/cover-image"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-AVATAR-IMAGE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/HK/OneDrive/Pictures/Screenshots/Screenshot 2024-02-05 191701.png"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/users/avatar"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-SUBSCRIBER",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\" : \"{{userName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/users/channel"
+					},
+					"response": []
+				},
+				{
+					"name": "WATCH-HISTORY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/users/watch-history"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMMENT-API",
+			"item": [
+				{
+					"name": "GET-VIDEO-COMMENTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/comments/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "ADD-COMMENT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{BASE_URL}}/comments/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-COMMENTS",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{BASE_URL}}/comments/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-COMMENTS",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/comments/675eb1cf964a51ab112af677"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PLAYLIST API",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{BASE_URL}}/playlist/create-playlist"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-PLAYLIST",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/playlist/675fd8d9ef32425d5677f266"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-PLAYLIST",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"my collaction\",\r\n    \"description\" : \"my favorite list\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/playlist/23"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-PLAYLIST",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/playlist/675fd8d9ef32425d5677f266"
+					},
+					"response": []
+				},
+				{
+					"name": "ADD-PLAYLIST",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"my collaction 1 \",\r\n    \"description\" : \"my favorite list 💖\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/playlist/675fd8d9ef32425d5677f266"
+					},
+					"response": []
+				},
+				{
+					"name": "ADD-TO-PLAYLIST",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{BASE_URL}}/playlist/add/675fa9e35b1c578d10f6325c/675fd8d9ef32425d5677f266"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-USER-PLAYLISTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/playlist/user/675fd8d9ef32425d5677f266"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VIDEO-API",
+			"item": [
+				{
+					"name": "UPLOAD-VIDEO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Learn to build file based routing from scratch like Nextjs",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Here is the link to get code files for this video:\\nhttps://hitesh.pieces.cloud/?p=a2ac4ab4b3\\n\\nFacebook: https://www.facebook.com/HiteshChoudharyPage\\nInstagram: https://instagram.com/hiteshchoudharyofficial\\nhomepage: http://www.hiteshChoudhary.com\\n\\nDisclaimer:\\nIt doesn't feel good to have a disclaimer in every video but this is how the world is right now. \\nAll videos are for educational purposes and use them wisely.",
+									"type": "text"
+								},
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/C:/Users/HK/Downloads/35344-405897623_small.mp4"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/HK/OneDrive/Pictures/Screenshots/Screenshot 2024-01-30 013456.png"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/videos/upload-video"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-VDIEOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/videos/upload-video"
+					},
+					"response": []
+				},
+				{
+					"name": "GET-VIDEOBYID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/videos/675fa9e35b1c578d10f6325c"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE-VIDEO",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "this is test video",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "testing update video api with thumbnail",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/C:/Users/HK/OneDrive/Pictures/Screenshots/Screenshot 2024-01-29 234408.png"
+								}
+							]
+						},
+						"url": "{{BASE_URL}}/videos/675fa9e35b1c578d10f6325c"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE-VIDEO",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{BASE_URL}}/videos/675fa9e35b1c578d10f6325c"
+					},
+					"response": []
+				},
+				{
+					"name": "PUBLISH-TOGGLE",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{BASE_URL}}/videos/toggle/publish/675fa9e35b1c578d10f6325c"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
